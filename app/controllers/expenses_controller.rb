@@ -43,7 +43,7 @@ class ExpensesController < ApplicationController
 
   # GET /admin
   def admin
-    @expenses = Expense.all
+    @expenses = Expense.paginate(page: params[:page])
   end
 
   def show
