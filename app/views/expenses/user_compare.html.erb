@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+<h1>Comparing <%= @user %> with the Average Student</h1>
+
+<h2>Total expenses all time for <%= @user %> </h2>
+<%= number_to_currency @user_expenses_total %>
+
+<h2>Average expenses all time</h2>
+<%= number_to_currency @average_expenses_total %>
+<br>
+
+<h2>User Past Week</h2>
+<%= number_to_currency @user_past_week %>
+
+<h2>Average Past Week</h2>
+<%= number_to_currency @all_past_week %>
+
+
+<table rules='all'>
+  <tr>
+    <th>&nbsp;</th>
+    <% @categories.each do |category| %>
+      <th> <%= category %> </th>
+    <% end %>
+  </tr>
+
+  <tr>
+    <td style='font-weight:bold'> <%= @user %> Avg Week </td>
+
+    <% @user_avg_categories.each do |value| %>
+      <td> <%= number_to_currency value %> </td>
+    <% end %>
+  </tr>
+
+  <tr>
+    <td style='font-weight:bold'> <%= @user %> Past Week </td>
+
+    <% @user_past_week_categories.each do |value| %>
+      <td> <%= number_to_currency value %> </td>
+    <% end %>
+  </tr>
+
+
+
+</table>

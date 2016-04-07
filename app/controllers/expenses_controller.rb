@@ -4,11 +4,48 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.json
   def index
+    @total_expenses = Expense.sum(:amount)
+
+    @categories = Expense.categories
+    @avg_categories = Expense.categories.map do |category|
+      Expense.average_week(nil, category).to_f
+    end
+
+    @avg_weekly_expenses = Expense.average_week.to_f
+    @past_week_expenses = Expense.past_week.sum(:amount)
+
+    @past_week_categories = Expense.categories.map do |category|
+      Expense.past_week.where(category: category).sum(:amount)
+    end
+  end
+
+  # GET /info
+  def user_compare
+    @user = params[:user_name]
+    num_users = Expense.distinct.count(:user)
+
+    @user_expenses_total = Expense.where(user: @user).sum(:amount)
+    @average_expenses_total = Expense.sum(:amount) / num_users
+
+    @user_past_week = Expense.past_week.where(user: @user).sum(:amount)
+    @all_past_week = Expense.past_week.sum(:amount) / num_users
+
+    @user_avg_categories = Expense.categories.map do |category|
+      Expense.average_week(@user, category).to_f
+    end
+
+    @user_past_week_categories = Expense.categories.map do |category|
+      Expense.past_week.where(user: @user).where(category: category).sum(:amount)
+    end
+
+    @categories = Expense.categories
+  end
+
+  # GET /admin
+  def admin
     @expenses = Expense.all
   end
 
-  # GET /expenses/1
-  # GET /expenses/1.json
   def show
   end
 
@@ -17,7 +54,6 @@ class ExpensesController < ApplicationController
     @expense = Expense.new
   end
 
-  # GET /expenses/1/edit
   def edit
   end
 
@@ -28,8 +64,8 @@ class ExpensesController < ApplicationController
 
     respond_to do |format|
       if @expense.save
-        format.html { redirect_to @expense, notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: @expense }
+        format.html { redirect_to :root, notice: 'Expense was successfully created.' }
+        format.json { render :index, status: :created }
       else
         format.html { render :new }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
@@ -37,8 +73,6 @@ class ExpensesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /expenses/1
-  # PATCH/PUT /expenses/1.json
   def update
     respond_to do |format|
       if @expense.update(expense_params)
@@ -51,8 +85,6 @@ class ExpensesController < ApplicationController
     end
   end
 
-  # DELETE /expenses/1
-  # DELETE /expenses/1.json
   def destroy
     @expense.destroy
     respond_to do |format|
