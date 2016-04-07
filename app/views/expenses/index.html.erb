@@ -37,3 +37,10 @@
     <td> <%= number_to_currency @past_weekly_expenses%> </td>
   </tr>
 </table>
+
+<h3>Search By User</h3>
+<%= form_tag 'info', method: :get do %>
+  <label for='user'>User: </label>
+  <input type='text' name='user'>
+  <%= submit_tag 'Go' %>
+<% end %>

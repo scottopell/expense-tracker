@@ -20,8 +20,8 @@ class ExpensesController < ApplicationController
   end
 
   # GET /info
-  def user_compare
-    @user = params[:user_name]
+  def user_info
+    @user = params[:user]
     num_users = Expense.distinct.count(:user)
 
     @user_expenses_total = Expense.where(user: @user).sum(:amount)
