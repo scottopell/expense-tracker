@@ -44,6 +44,21 @@ class ExpensesController < ApplicationController
   # GET /admin
   def admin
     @expenses = Expense.paginate(page: params[:page])
+    @category_options = Expense.categories
+    @dir_options = ['ASC', 'DESC']
+    @column_options = ['user', 'date', 'category']
+
+    if params['category-filter'].present? && params['category-filter'] != 'None'
+      @expenses = @expenses.where(category: params['category-filter'])
+    end
+
+    if params['user-filter'].present?
+      @expenses = @expenses.where(user: params['user-filter'])
+    end
+
+    if params['sort'].present?
+      @expenses = @expenses.order(params['sort'] => params['dir'])
+    end
   end
 
   def show
