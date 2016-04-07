@@ -34,11 +34,15 @@ gem 'will_paginate', '~> 3.0.6'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
+# These should really just be dev and test dependencies, but I want to use
+# db:seed on heroku, and heroku is prod. So they're going to live here
+gem 'faker'
+gem 'factory_girl_rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'faker'
-  gem 'factory_girl_rails'
 end
 
 group :development do
