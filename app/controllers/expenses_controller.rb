@@ -48,7 +48,7 @@ class ExpensesController < ApplicationController
     @dir_options = ['ASC', 'DESC']
     @column_options = ['user', 'date', 'category']
 
-    if params['category-filter'].present? && params['category-filter'] != 'None'
+    if params['category-filter'].present?
       @expenses = @expenses.where(category: params['category-filter'])
     end
 
@@ -56,8 +56,8 @@ class ExpensesController < ApplicationController
       @expenses = @expenses.where(user: params['user-filter'])
     end
 
-    if params['sort'].present?
-      @expenses = @expenses.order(params['sort'] => params['dir'])
+    if params[:sort].present? && params[:dir].present?
+      @expenses = @expenses.order(params[:sort] => params[:dir])
     end
   end
 

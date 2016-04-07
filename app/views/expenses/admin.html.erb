@@ -26,8 +26,7 @@
 
   <label class='admin-labels' for='dir'>Dir: </label>
   <%= select_tag 'dir', options_for_select(@dir_options,
-                                           params['dir']),
-                       include_blank: true %>
+                                           params['dir']) %>
   <br>
   <%= submit_tag 'Go' %>
 <% end %>
