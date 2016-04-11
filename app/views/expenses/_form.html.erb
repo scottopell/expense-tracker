@@ -13,18 +13,19 @@
 
   <div class="field">
     <%= f.label :amount %><br>
-    <%= f.text_field :amount %>
+    <span>$</span>
+    <%= f.text_field :amount, type: :number, min: "0.01", value: "0.00", step: "0.01" %>
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <%= f.text_field :category %>
+    <%= f.select :category, options_for_select(@category_options) %>
   </div>
   <div class="field">
     <%= f.label :date %><br>
     <%= f.date_select :date %>
   </div>
   <div class="field">
-    <%= f.label :user %><br>
+    <%= f.label :user, "User ID" %><br>
     <%= f.text_field :user %>
   </div>
   <div class="actions">

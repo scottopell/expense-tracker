@@ -31,7 +31,10 @@ class ExpensesController < ApplicationController
     @all_past_week = Expense.past_week.sum(:amount) / num_users
 
     @user_avg_categories = Expense.categories.map do |category|
-      Expense.average_week(@user, category).to_f
+      value = Expense.average_week(@user, category).to_f
+      value = 0 if value.nan?
+
+      value
     end
 
     @user_past_week_categories = Expense.categories.map do |category|
@@ -67,6 +70,7 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = Expense.new
+    @category_options = Expense.categories
   end
 
   def edit
