@@ -24,7 +24,7 @@ class ExpensesController < ApplicationController
     @user = params[:user]
     num_users = Expense.distinct.count(:user)
 
-    expenses = Expense.where(user: @user).order(date: :desc)
+    expenses = Expense.where(user: @user).order(date: :asc)
 
     if expenses.empty?
       redirect_to :root, notice: "User has no expenses to report"
