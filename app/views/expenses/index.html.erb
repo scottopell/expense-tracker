@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Record New Expense', new_expense_path %>
+<%= link_to 'Record New Expense', new_expense_path, class: 'button' %>
 
 <h2>Listing Expenses</h2>
 <h4>All-Time Expense Total</h4>
 <%= number_to_currency @total_expenses %>
 <br>
 
-<h4>Weekly Expenses</h4>
-<table rules='all'>
+<h4>Weekly Expense Breakdown</h4>
+<table>
   <tr>
     <th>&nbsp;</th>
     <% @categories.each do |category| %>
