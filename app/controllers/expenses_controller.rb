@@ -86,6 +86,28 @@ class ExpensesController < ApplicationController
     end
   end
 
+  # GET /cccdata
+  def cccdata
+    require 'open-uri'
+
+    menu_url = 'http://www.consolidatedcredit.org/debt-solutions/american-spending-statistics/'
+    page = Nokogiri::HTML(open(menu_url))
+
+    things = []
+    page.css('body > div.con.main > article > table tr').each do |el|
+      columns = el.css 'td'
+      if columns.present?
+        category = el.css('td')[0].text
+        value = el.css('td')[1].text
+
+        things << { category: category, value: value }
+        puts things.last
+      end
+    end
+
+    render json: things
+  end
+
   def show
   end
 

@@ -38,32 +38,33 @@ and the most recent one dated at
 <%= number_to_currency @all_past_week %>
 </p>
 
+<div class='tables'>
+  <table>
+    <tr>
+      <th>&nbsp;</th>
+      <% @categories.each do |category| %>
+        <th> <%= category %> </th>
+      <% end %>
+    </tr>
 
-<table>
-  <tr>
-    <th>&nbsp;</th>
-    <% @categories.each do |category| %>
-      <th> <%= category %> </th>
-    <% end %>
-  </tr>
+    <tr>
+      <td style='font-weight:bold'> <%= @user %> Avg Week </td>
 
-  <tr>
-    <td style='font-weight:bold'> <%= @user %> Avg Week </td>
+      <% @user_avg_categories.each do |value| %>
+        <td> <%= number_to_currency value %> </td>
+      <% end %>
+    </tr>
 
-    <% @user_avg_categories.each do |value| %>
-      <td> <%= number_to_currency value %> </td>
-    <% end %>
-  </tr>
+    <tr>
+      <td style='font-weight:bold'> <%= @user %> Past Week </td>
 
-  <tr>
-    <td style='font-weight:bold'> <%= @user %> Past Week </td>
+      <% @user_past_week_categories.each do |value| %>
+        <td> <%= number_to_currency value %> </td>
+      <% end %>
+    </tr>
 
-    <% @user_past_week_categories.each do |value| %>
-      <td> <%= number_to_currency value %> </td>
-    <% end %>
-  </tr>
-
-</table>
+  </table>
+</div>
 
 
 <h4>Charts</h4>
@@ -136,6 +137,25 @@ $(function () {
             colorByPoint: true,
             data: <%= @avg_week_json_data %>
         }]
+    });
+    $.getJSON('/cccdata', function(data){
+      window.d = data;
+      var percentages = data.map(function(el){ return "<td>" + el.value + "</td>"; });
+      var percentage_row = percentages.reduce( function(previousValue, currentValue, currentIndex, array){
+        return previousValue + currentValue;
+      });
+
+      var categories = data.map(function(el){ return "<th>" + el.category + "</th>"; });
+      var categories_row = categories.reduce( function(previousValue, currentValue, currentIndex, array){
+        return previousValue + currentValue;
+      });
+
+      var table = '<table><tbody>';
+      table += '<tr>' + '<td>&nbsp;</td>' + categories_row + '</tr>';
+      table += '<tr>' + '<th>US Avg</th>' + percentage_row + '</tr>';
+
+
+      $('.tables').append(table);
     });
 });
 </script>
