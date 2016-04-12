@@ -51,6 +51,18 @@ class ExpensesController < ApplicationController
       end
 
       @categories = Expense.categories
+
+      past_week_data = @user_past_week_categories.map.with_index do |value, idx|
+        { name: Expense.categories[idx], y: value.to_f }
+      end
+
+      @past_week_json_data = past_week_data.to_json.html_safe
+
+      avg_week_data = @user_avg_categories.map.with_index do |value, idx|
+        { name: Expense.categories[idx], y: value.to_f }
+      end
+
+      @avg_week_json_data = avg_week_data.to_json.html_safe
     end
   end
 

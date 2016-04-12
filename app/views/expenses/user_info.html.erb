@@ -63,6 +63,80 @@ and the most recent one dated at
     <% end %>
   </tr>
 
-
-
 </table>
+
+
+<h4>Charts</h4>
+<div id='past-week-container' style='min-width: 310px; height: 600px; max-width: 600px; margin: 0 auto'></div>
+<div id='avg-week-container' style='min-width: 310px; height: 600px; max-width: 600px; margin: 0 auto'></div>
+
+<script>
+$(function () {
+    $('#past-week-container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Expenses for the past week'
+        },
+        tooltip: {
+            pointFormat: '<b>${point.y:.2f}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Expenses',
+            colorByPoint: true,
+            data: <%= @past_week_json_data %>
+        }]
+    });
+
+    $('#avg-week-container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Avg Expenses'
+        },
+        tooltip: {
+            pointFormat: '<b>${point.y:.2f}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Expenses',
+            colorByPoint: true,
+            data: <%= @avg_week_json_data %>
+        }]
+    });
+});
+</script>
+
