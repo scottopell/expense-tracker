@@ -2,12 +2,12 @@
 
 <%= link_to 'Record New Expense', new_expense_path %>
 
-<h1>Listing Expenses</h1>
-<h2>All-Time Expense Total</h2>
+<h2>Listing Expenses</h2>
+<h4>All-Time Expense Total</h4>
 <%= number_to_currency @total_expenses %>
 <br>
 
-<h2>Weekly Expenses</h2>
+<h4>Weekly Expenses</h4>
 <table rules='all'>
   <tr>
     <th>&nbsp;</th>
@@ -38,7 +38,7 @@
   </tr>
 </table>
 
-<h3>Search By User</h3>
+<h4>Search By User</h4>
 <%= form_tag 'info', method: :get do %>
   <label for='user'>User: </label>
   <input type='text' name='user'>

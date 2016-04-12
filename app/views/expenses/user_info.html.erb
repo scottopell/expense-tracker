@@ -1,22 +1,45 @@
+<style>
+span.bold {
+  font-weight: bold;
+}
+</style>
+
 <p id="notice"><%= notice %></p>
-<a href='/'>Home</a>
-<h1>Comparing <%= @user %> with the Average Student</h1>
 
-<h2>Total expenses all time for <%= @user %> </h2>
+<a class='button' href='/'>Home</a>
+<h1>Information for "<%= @user %>"</h1>
+
+<p>
+<%= @user %> has submitted
+<span class='bold'> <%= @num_expenses %></span>
+expenses with the earliest one dated at
+<span class='bold'><%= @first_expense_date.to_s :long_ordinal %></span>
+and the most recent one dated at
+<span class='bold'><%= @last_expense_date.to_s :long_ordinal %></span>.
+</p>
+
+<h4>Cumulative Expenses</h4>
+<p>
 <%= number_to_currency @user_expenses_total %>
+</p>
 
-<h2>Average expenses all time</h2>
+<h4>Average expenses</h4>
+<p>
 <%= number_to_currency @average_expenses_total %>
-<br>
+</p>
 
-<h2>User Past Week</h2>
+<h4>User Past Week</h4>
+<p>
 <%= number_to_currency @user_past_week %>
+</p>
 
-<h2>Average Past Week</h2>
+<h4>Average Past Week</h4>
+<p>
 <%= number_to_currency @all_past_week %>
+</p>
 
 
-<table rules='all'>
+<table>
   <tr>
     <th>&nbsp;</th>
     <% @categories.each do |category| %>

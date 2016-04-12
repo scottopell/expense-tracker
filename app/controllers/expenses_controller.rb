@@ -24,24 +24,34 @@ class ExpensesController < ApplicationController
     @user = params[:user]
     num_users = Expense.distinct.count(:user)
 
-    @user_expenses_total = Expense.where(user: @user).sum(:amount)
-    @average_expenses_total = Expense.sum(:amount) / num_users
+    expenses = Expense.where(user: @user).order(date: :desc)
 
-    @user_past_week = Expense.past_week.where(user: @user).sum(:amount)
-    @all_past_week = Expense.past_week.sum(:amount) / num_users
+    if expenses.empty?
+      redirect_to :root, notice: "User has no expenses to report"
+    else
+      @first_expense_date = expenses.first.date
+      @last_expense_date = expenses.last.date
+      @num_expenses = expenses.length
 
-    @user_avg_categories = Expense.categories.map do |category|
-      value = Expense.average_week(@user, category).to_f
-      value = 0 if value.nan?
+      @user_expenses_total = Expense.where(user: @user).sum(:amount)
+      @average_expenses_total = Expense.sum(:amount) / num_users
 
-      value
+      @user_past_week = Expense.past_week.where(user: @user).sum(:amount)
+      @all_past_week = Expense.past_week.sum(:amount) / num_users
+
+      @user_avg_categories = Expense.categories.map do |category|
+        value = Expense.average_week(@user, category).to_f
+        value = 0 if value.nan?
+
+        value
+      end
+
+      @user_past_week_categories = Expense.categories.map do |category|
+        Expense.past_week.where(user: @user).where(category: category).sum(:amount)
+      end
+
+      @categories = Expense.categories
     end
-
-    @user_past_week_categories = Expense.categories.map do |category|
-      Expense.past_week.where(user: @user).where(category: category).sum(:amount)
-    end
-
-    @categories = Expense.categories
   end
 
   # GET /admin
