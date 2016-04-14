@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations' }
   resources :expenses, only: [ :index, :new, :create ]
 
   get 'dashboard' => 'misc#dashboard'
