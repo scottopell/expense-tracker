@@ -7,10 +7,10 @@ span.bold {
 <p></p>
 
 <a class='button' href='/'>Home</a>
-<h1>Information for "<%= @user.full_name %>"</h1>
+<h1>Information for "<%= @user.name %>"</h1>
 
 <p>
-<%= @user.full_name %> has submitted
+<%= @user.name %> has submitted
 <span class='bold'> <%= @num_expenses %></span>
 expenses with the earliest one dated at
 <span class='bold'><%= @first_expense_date.to_s :long_ordinal %></span>
@@ -48,7 +48,7 @@ and the most recent one dated at
     </tr>
 
     <tr>
-      <td style='font-weight:bold'> <%= @user.full_name %> Avg Week </td>
+      <td style='font-weight:bold'> <%= @user.name %> Avg Week </td>
 
       <% @user_avg_categories.each do |value| %>
         <td> <%= number_to_currency value %> </td>
@@ -56,7 +56,7 @@ and the most recent one dated at
     </tr>
 
     <tr>
-      <td style='font-weight:bold'> <%= @user.full_name %> Past Week </td>
+      <td style='font-weight:bold'> <%= @user.name %> Past Week </td>
 
       <% @user_past_week_categories.each do |value| %>
         <td> <%= number_to_currency value %> </td>

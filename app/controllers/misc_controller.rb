@@ -78,9 +78,7 @@ class MiscController < ApplicationController
 
     if params['user-filter'].present?
       @expenses = @expenses.joins(:user)
-        .where("users.first_name ILIKE ? OR users.last_name ILIKE ?",
-               "%#{params['user-filter']}%",
-               "%#{params['user-filter']}%")
+        .where("users.name ILIKE ?", "%#{params['user-filter']}%")
     end
 
     if params[:sort].present? && params[:dir].present?

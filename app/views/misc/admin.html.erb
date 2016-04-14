@@ -51,7 +51,7 @@
         <td><%= number_to_currency expense.amount %></td>
         <td><%= expense.category %></td>
         <td><%= expense.date %></td>
-        <td><%= link_to expense.user.full_name,
+        <td><%= link_to expense.user.name,
                         dashboard_path(user_id: expense.user.id) %></td>
       </tr>
     <% end %>
