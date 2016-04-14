@@ -1,5 +1,6 @@
 class MiscController < ApplicationController
   before_action :authenticate_user!, :except => [:cccdata]
+  before_action :authenticate_admin, :only => [:admin]
 
   # GET '/dashboard'
   # GET '/info'
@@ -108,5 +109,12 @@ class MiscController < ApplicationController
 
     render json: things
   end
+
+  private
+    def authenticate_admin
+      if !current_user.admin
+        redirect_to root_path, alert: 'You don\'t have permission to do that'
+      end
+    end
 
 end
