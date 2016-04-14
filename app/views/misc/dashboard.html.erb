@@ -4,13 +4,13 @@ span.bold {
 }
 </style>
 
-<p id="notice"><%= notice %></p>
+<p></p>
 
 <a class='button' href='/'>Home</a>
-<h1>Information for "<%= @user %>"</h1>
+<h1>Information for "<%= @user.full_name %>"</h1>
 
 <p>
-<%= @user %> has submitted
+<%= @user.full_name %> has submitted
 <span class='bold'> <%= @num_expenses %></span>
 expenses with the earliest one dated at
 <span class='bold'><%= @first_expense_date.to_s :long_ordinal %></span>
@@ -33,7 +33,7 @@ and the most recent one dated at
 <%= number_to_currency @user_past_week %>
 </p>
 
-<h4>Average Past Week</h4>
+<h4>User Average Week</h4>
 <p>
 <%= number_to_currency @all_past_week %>
 </p>
@@ -48,7 +48,7 @@ and the most recent one dated at
     </tr>
 
     <tr>
-      <td style='font-weight:bold'> <%= @user %> Avg Week </td>
+      <td style='font-weight:bold'> <%= @user.full_name %> Avg Week </td>
 
       <% @user_avg_categories.each do |value| %>
         <td> <%= number_to_currency value %> </td>
@@ -56,9 +56,17 @@ and the most recent one dated at
     </tr>
 
     <tr>
-      <td style='font-weight:bold'> <%= @user %> Past Week </td>
+      <td style='font-weight:bold'> <%= @user.full_name %> Past Week </td>
 
       <% @user_past_week_categories.each do |value| %>
+        <td> <%= number_to_currency value %> </td>
+      <% end %>
+    </tr>
+
+    <tr>
+      <td style='font-weight:bold'> Class Average </td>
+
+      <% @class_average_categories.each do |value| %>
         <td> <%= number_to_currency value %> </td>
       <% end %>
     </tr>

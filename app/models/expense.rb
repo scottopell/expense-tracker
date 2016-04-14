@@ -1,4 +1,6 @@
 class Expense < ActiveRecord::Base
+  belongs_to :user
+
   def self.past_week
     Expense.where('date > ?', 1.week.ago)
   end

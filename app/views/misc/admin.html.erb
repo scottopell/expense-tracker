@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<p></p>
 <a class='button' href='/'>Home</a>
 <style>
   .admin-labels {
@@ -51,7 +51,8 @@
         <td><%= number_to_currency expense.amount %></td>
         <td><%= expense.category %></td>
         <td><%= expense.date %></td>
-        <td><%= expense.user %></td>
+        <td><%= link_to expense.user.full_name,
+                        dashboard_path(user_id: expense.user.id) %></td>
       </tr>
     <% end %>
   </tbody>

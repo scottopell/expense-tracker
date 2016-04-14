@@ -1,8 +1,17 @@
-<p id="notice"><%= notice %></p>
+<% if current_user %>
+  <%= link_to 'Record New Expense', new_expense_path, class: 'button' %>
+  <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'button' %>
+  <% if current_user.admin %>
+    <%= link_to 'Admin Page', admin_path, class: 'button' %>
+  <% end %>
+<% else %>
+    <%= link_to 'Sign Up', new_user_registration_path, class: 'button' %>
+    <%= link_to 'Sign In', new_user_session_path, class: 'button' %>
+<% end %>
 
-<%= link_to 'Record New Expense', new_expense_path, class: 'button' %>
 
-<h2>Listing Expenses</h2>
+
+<h2>Class Expenses</h2>
 <h4>All-Time Expense Total</h4>
 <%= number_to_currency @total_expenses %>
 <br>
@@ -37,10 +46,3 @@
     <td> <%= number_to_currency @past_week_expenses%> </td>
   </tr>
 </table>
-
-<h4>Search By User</h4>
-<%= form_tag 'info', method: :get do %>
-  <label for='user'>User: </label>
-  <input type='text' name='user'>
-  <%= submit_tag 'Go' %>
-<% end %>

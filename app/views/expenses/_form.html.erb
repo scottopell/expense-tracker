@@ -24,10 +24,8 @@
     <%= f.label :date %><br>
     <%= f.date_select :date %>
   </div>
-  <div class="field">
-    <%= f.label :user, "User ID" %><br>
-    <%= f.text_field :user %>
-  </div>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
