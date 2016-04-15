@@ -26,7 +26,6 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = Expense.new
-    @category_options = Expense.categories
   end
 
   def edit

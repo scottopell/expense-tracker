@@ -14,7 +14,7 @@
     <br>
 
     <label class='admin-labels' for='category-filter'>Category: </label>
-    <%= select_tag 'category-filter', options_for_select(@category_options,
+    <%= select_tag 'category-filter', options_for_select(Expense.categories,
                                                          params['category-filter']),
                                      include_blank: true %>
     <br>

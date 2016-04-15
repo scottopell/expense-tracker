@@ -18,7 +18,7 @@
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <%= f.select :category, options_for_select(@category_options) %>
+    <%= f.select :category, options_for_select(Expense.categories) %>
   </div>
   <div class="field">
     <%= f.label :date %><br>

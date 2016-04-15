@@ -68,7 +68,6 @@ class MiscController < ApplicationController
   # GET /admin
   def admin
     @expenses = Expense.paginate(page: params[:page])
-    @category_options = Expense.categories
     @dir_options = ['ASC', 'DESC']
     @column_options = ['user', 'date', 'category']
 
