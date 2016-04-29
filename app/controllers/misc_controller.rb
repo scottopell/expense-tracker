@@ -1,6 +1,10 @@
 class MiscController < ApplicationController
   before_action :authenticate_user!, :except => [:cccdata]
-  before_action :authenticate_admin, :only => [:admin]
+  before_action :authenticate_admin, :only => [:admin,
+                                               :drop_data,
+                                               :admin_user_viewer,
+                                               :admin_password_reset,
+                                               :admin_password_reset_post]
 
   # GET '/dashboard'
   # GET '/info'
@@ -83,6 +87,47 @@ class MiscController < ApplicationController
     if params[:sort].present? && params[:dir].present?
       @expenses = @expenses.order(params[:sort] => params[:dir])
     end
+  end
+
+  # GET /admin/users
+  def admin_user_viewer
+    @users = User.all
+    if params[:email].present?
+      @users = User.where('email = ?', params[:email])
+    elsif params[:name].present?
+      @users = User.where('name ILIKE ?', "%#{params[:name]}%")
+    end
+  end
+
+  #GET /admin/password_reset
+  def admin_password_reset
+    if !params[:user_id].present?
+      redirect_to admin_user_viewer_path, notice: "No user specified, choose a user here" and return
+    end
+    @user = User.find(params[:user_id])
+  end
+
+  #POST /admin/password_reset
+  def admin_password_reset_post
+    @user = User.find(params[:user_id])
+
+    if params[:password] != params[:password_confirmation]
+      redirect_to admin_password_reset_path(user_id: @user.id), alert: "User's password not set successfully. Password and Confirmation don't match, try again" and return
+    end
+
+    if @user.update(password: params[:password])
+      redirect_to admin_user_viewer_path, notice: "User's password set successfully!" and return
+    else
+      redirect_to admin_password_reset_path(user_id: @user.id), alert: "User's password not set successfully. Did you meet the password requirements?" and return
+    end
+  end
+
+
+  # POST /admin/drop_data
+  def drop_data
+    User.where(admin: false).delete_all
+    Expense.delete_all
+    redirect_to admin_path, notice: "Users and Expenses deleted successfully"
   end
 
   # GET /cccdata

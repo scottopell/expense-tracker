@@ -5,6 +5,10 @@
     display: inline-block;
     min-width: 75px;
   }
+
+  #delete_all {
+    color: red;
+  }
 </style>
 
 <div class='filters'>
@@ -33,6 +37,8 @@
   <% end %>
 </div>
 
+<%= link_to "Reset User's Password", admin_user_viewer_path, class: 'button' %>
+
 <h1>All Expenses Reported</h1>
 
 <table>
@@ -59,3 +65,7 @@
 </table>
 
 <%= will_paginate @expenses %>
+
+<%= button_to 'Delete All Users and Expenses', admin_drop_data_path, id: 'delete_all',
+  method: :post, data: {confirm: 'Are you really really sure? You can\'t undo this'} %>
+
