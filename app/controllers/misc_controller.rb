@@ -130,6 +130,41 @@ class MiscController < ApplicationController
     redirect_to admin_path, notice: "Users and Expenses deleted successfully"
   end
 
+  # GET /admin/marketwatch
+  def admin_marketwatch
+    @errors = []
+  end
+
+  # POST /admin/marketwatch
+  def admin_marketwatch_reg
+    require 'CSV'
+    require 'JSON'
+    @errors = []
+    @successes = []
+    @attempt = true
+    csv = CSV.new(params[:csv].to_io, headers: true)
+    csv.each do |row|
+      name = row["Student Name"]
+      email = row["Student Email"]
+      fname = name.downcase.split.first.gsub(/[^a-z]/,'')
+      lname = name.downcase.split.last.gsub(/[^a-z]/,'')
+
+      password_candidate = name.downcase.split.first.gsub(/[^a-z]/,'')
+
+      # truncates the length to the first 15 characters
+      password = password_candidate[0..14]
+      # pads out the string with the letter a if its less than 5 characters
+      if password.length < 5
+        password = password + "a" * (5 - password.length)
+      end
+
+      result = register_mw_user(fname, lname, email, password)
+      @errors << result[1] if result[0] == false
+      @successes << result[1] if result[0] == true
+    end
+    render :admin_marketwatch
+  end
+
   # GET /cccdata
   def cccdata
     require 'open-uri'
@@ -157,6 +192,19 @@ class MiscController < ApplicationController
       if !current_user.admin
         redirect_to root_path, alert: 'You don\'t have permission to do that'
       end
+    end
+
+    def register_mw_user(fname, lname, email, password)
+      puts "#{fname} #{lname} #{email} #{password}"
+      output = `curl --silent 'https://id.marketwatch.com/epiton/registration/v2/profile' -H 'X-HTTP-Method-Override: POST' --data "profile.firstName=#{fname}&profile.lastName=#{lname}&profile.emailAddress=#{email}&profile.password=#{password}&profile.passwordConfirmation=#{password}&service.prodct=wsj-online&service.templateCode=MARKETWATCH&service.registrationType=FREE_REGISTRATION&profile.newsletterOptIns=330%2C302%2C303&profile.options.featureEmailOptIn=true" --compressed`
+      j = JSON.parse output
+
+      if j["status"] != "success"
+        return [false, "Couldn't register user with email: '#{email}', first_name: '#{fname}', last_name: '#{lname}', password: '#{password}'"]
+      else
+        return [true, "Registered user with email: '#{email}', first_name: '#{fname}', last_name: '#{lname}', password: '#{password}'"]
+      end
+
     end
 
 end

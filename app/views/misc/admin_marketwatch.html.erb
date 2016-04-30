@@ -1,0 +1,57 @@
+<style>
+  pre {
+    font-size: .8em;
+  }
+</style>
+<p></p>
+<a class='button' href='/'>Home</a>
+<h1>MarketWatch Registration Tool</h1>
+
+<%= form_tag 'marketwatch_reg', method: :post, multipart: true do %>
+  <p>
+  <b>IMPORTANT: if you have over ~150 entries in the CSV, then SPLIT UP THE CSV.</b>
+  <br>
+  The reason is as follows: Each entry has to make a network request. Each network
+  request will take ~150 ms (std dev: 50ms). So, 150 entries at .15 seconds each
+  will take ~20 seconds. Heroku has a timeout of 30 seconds. After these 30
+  seconds, your request will fail and you won't know how many registrations
+  succeeded
+  <br>
+  <BR>
+  Also, the csv must look like this. Without two columns with these exact titles,
+  this tool will not work:
+  <pre>
+Student Name,Student Email
+some name,someemail@something.com
+other name,otheremail@whatever.whatever
+  </pre>
+  </p>
+
+  <label for='csv'>Upload CSV</label>
+  <%= file_field_tag :csv %>
+  <br>
+
+  <%= submit_tag 'Go' %>
+<% end %>
+
+<% if @attempt%>
+  <p> See below for the results from that CSV. You may want to copy and paste
+  these results, if you navigate away from this page they will disappear </p>
+  <h4>The following users were registered: </h4>
+
+  <pre>
+  <% @successes.each do |suc| %>
+    <%= suc %>
+  <% end %>
+  </pre>
+<% end %>
+
+<% if @attempt && !@errors.empty? %>
+  <h4>The following users had errors. They DID NOT have accounts created</h4>
+  <pre>
+  <% @errors.each do |error| %>
+    <%= error %>
+  <% end %>
+  </pre>
+
+<% end %>
