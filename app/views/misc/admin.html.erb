@@ -9,6 +9,10 @@
   #delete_all {
     color: red;
   }
+
+  .data-buttons {
+    margin-bottom: 0px;
+  }
 </style>
 
 <div class='filters'>
@@ -37,7 +41,17 @@
   <% end %>
 </div>
 
-<%= link_to "Reset User's Password", admin_user_viewer_path, class: 'button' %>
+<div class='link-buttons'>
+  <%= link_to "Reset User's Password", admin_user_viewer_path, class: 'button' %>
+  <%= link_to "MarketWatch Registration Tool", admin_marketwatch_path, class: 'button' %>
+</div>
+
+<h4> Data Manipulation Buttons </h4>
+<div class='data-buttons'>
+  <%= button_to "Load Fake Users and Expenses", admin_seed_data_path, method: :post %>
+  <%= button_to 'Delete All Users and Expenses', admin_drop_data_path, id: 'delete_all',
+    method: :post, data: {confirm: 'Are you really really sure? You can\'t undo this'} %>
+<div class='data-buttons'>
 
 <h1>All Expenses Reported</h1>
 
@@ -65,7 +79,3 @@
 </table>
 
 <%= will_paginate @expenses %>
-
-<%= button_to 'Delete All Users and Expenses', admin_drop_data_path, id: 'delete_all',
-  method: :post, data: {confirm: 'Are you really really sure? You can\'t undo this'} %>
-

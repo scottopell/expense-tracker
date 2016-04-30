@@ -4,7 +4,10 @@ class MiscController < ApplicationController
                                                :drop_data,
                                                :admin_user_viewer,
                                                :admin_password_reset,
-                                               :admin_password_reset_post]
+                                               :admin_password_reset_post,
+                                               :admin_marketwatch_reg,
+                                               :seed_data,
+                                               :admin_marketwatch]
 
   # GET '/dashboard'
   # GET '/info'
@@ -128,6 +131,11 @@ class MiscController < ApplicationController
     User.where(admin: false).delete_all
     Expense.delete_all
     redirect_to admin_path, notice: "Users and Expenses deleted successfully"
+  end
+
+  def seed_data
+    Rails.application.load_seed
+    redirect_to admin_path, notice: "Fake Users and Expenses created successfully"
   end
 
   # GET /admin/marketwatch

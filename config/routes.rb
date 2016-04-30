@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'cccdata'              => 'misc#cccdata'
 
   post 'admin/drop_data'       => 'misc#drop_data'
+  post 'admin/seed_data'       => 'misc#seed_data'
   post 'admin/password_reset'  => 'misc#admin_password_reset_post'
   post 'admin/marketwatch_reg' => 'misc#admin_marketwatch_reg'
 
