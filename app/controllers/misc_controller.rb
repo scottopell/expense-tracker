@@ -145,8 +145,8 @@ class MiscController < ApplicationController
 
   # POST /admin/marketwatch
   def admin_marketwatch_reg
-    require 'CSV'
-    require 'JSON'
+    require 'csv'
+    require 'json'
     @errors = []
     @successes = []
     @attempt = true
