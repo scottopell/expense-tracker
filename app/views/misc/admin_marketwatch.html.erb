@@ -9,11 +9,11 @@
 
 <%= form_tag 'marketwatch_reg', method: :post, multipart: true do %>
   <p>
-  <b>IMPORTANT: if you have over ~150 entries in the CSV, then SPLIT UP THE CSV.</b>
+  <b>IMPORTANT: Only have a max of ~30 rows in the CSV</b>
   <br>
   The reason is as follows: Each entry has to make a network request. Each network
-  request will take ~150 ms (std dev: 50ms). So, 150 entries at .15 seconds each
-  will take ~20 seconds. Heroku has a timeout of 30 seconds. After these 30
+  request will take ~720 ms (std dev: 49ms). So, 30 entries at .72 seconds each
+  will take ~30 seconds. Heroku has a timeout of 30 seconds. After these 30
   seconds, your request will fail and you won't know how many registrations
   succeeded
   <br>

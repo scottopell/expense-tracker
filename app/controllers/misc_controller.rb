@@ -150,10 +150,19 @@ class MiscController < ApplicationController
     @errors = []
     @successes = []
     @attempt = true
+
+    if !params[:csv].present?
+      render :admin_marketwatch, error: 'no csv present, retry the upload' and return
+    end
+
     csv = CSV.new(params[:csv].to_io, headers: true)
     csv.each do |row|
       name = row["Student Name"]
       email = row["Student Email"]
+      if !name.present? || !email.present?
+        @errors << "Skipping user because of blank name or blank email"
+        next
+      end
       fname = name.downcase.split.first.gsub(/[^a-z]/,'')
       lname = name.downcase.split.last.gsub(/[^a-z]/,'')
 
